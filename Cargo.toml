@@ -1,0 +1,17 @@
+[package]
+name = "async-graphql-example"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+async-graphql = "4.0.16"
+async-graphql-axum = "4.0.16"
+axum = { version = "0.5.17", features = ["headers"] }
+env_logger = "0.9.3"
+hyper = "0.14.23"
+log = "0.4.17"
+reqwest = "0.11.12"
+serde = { version = "1.0.147", features = ["derive"] }
+serde_json = "1.0.87"
+slab = "0.4.7"
+tokio = { version = "1.21.2", features = ["macros", "rt-multi-thread"] }
