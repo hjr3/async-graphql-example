@@ -1,11 +1,13 @@
+use crate::datasource::Datasource;
+
 pub struct AppContext {
-    pub http_client: reqwest::Client,
+    pub datasource: Datasource,
 }
 
 impl AppContext {
-    pub fn new() -> Self {
+    pub fn new(dogstatsd: dogstatsd::Client) -> Self {
         Self {
-            http_client: reqwest::Client::new(),
+            datasource: Datasource::new(dogstatsd),
         }
     }
 }

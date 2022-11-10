@@ -28,17 +28,15 @@ impl CatQuery {
     async fn cat<'a>(&self, ctx: &Context<'a>) -> Result<Cat, StatusCode> {
         let app_context = ctx.data_unchecked::<AppContext>();
 
-        let response = app_context
-            .http_client
+        let body = app_context
+            .datasource
             .get("https://cataas.com/cat?json=true")
-            .send()
             .await
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+            .map_err(|err| {
+                log::error!("cat 2 failed {}", err);
 
-        let body = response
-            .text()
-            .await
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+                StatusCode::INTERNAL_SERVER_ERROR
+            })?;
 
         let cat: Cat = serde_json::from_str(&body).map_err(|err| {
             log::error!("Failed to deserialize {}", err);

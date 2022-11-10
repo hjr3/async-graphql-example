@@ -1,5 +1,6 @@
 mod app_context;
 mod cat;
+mod datasource;
 mod hello;
 
 use async_graphql::{http::GraphiQLSource, EmptyMutation, EmptySubscription, MergedObject, Schema};
@@ -35,7 +36,8 @@ async fn graphiql() -> impl IntoResponse {
 async fn main() {
     env_logger::init();
 
-    let app_context = app_context::AppContext::new();
+    let dogstatsd = dogstatsd::Client::new(dogstatsd::Options::default()).unwrap();
+    let app_context = app_context::AppContext::new(dogstatsd);
     let schema = Schema::build(Query::default(), EmptyMutation, EmptySubscription)
         .data(app_context)
         .finish();
