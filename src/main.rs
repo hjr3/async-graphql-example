@@ -37,7 +37,8 @@ async fn main() {
     env_logger::init();
 
     let dogstatsd = dogstatsd::Client::new(dogstatsd::Options::default()).unwrap();
-    let app_context = app_context::AppContext::new(dogstatsd);
+    let datasource = datasource::Datasource::new(dogstatsd);
+    let app_context = app_context::AppContext::new(Box::new(datasource));
     let schema = Schema::build(Query::default(), EmptyMutation, EmptySubscription)
         .data(app_context)
         .finish();

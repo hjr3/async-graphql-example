@@ -1,13 +1,11 @@
-use crate::datasource::Datasource;
+use crate::datasource::IDatasource;
 
 pub struct AppContext {
-    pub datasource: Datasource,
+    pub datasource: Box<dyn IDatasource>,
 }
 
 impl AppContext {
-    pub fn new(dogstatsd: dogstatsd::Client) -> Self {
-        Self {
-            datasource: Datasource::new(dogstatsd),
-        }
+    pub fn new(datasource: Box<dyn IDatasource>) -> Self {
+        Self { datasource }
     }
 }

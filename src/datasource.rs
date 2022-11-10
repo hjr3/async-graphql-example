@@ -1,6 +1,11 @@
 use std::time::Instant;
 
-use reqwest::IntoUrl;
+use async_trait::async_trait;
+
+#[async_trait]
+pub trait IDatasource: Sync + Send {
+    async fn get(&self, url: &str) -> Result<String, reqwest::Error>;
+}
 
 pub struct Datasource {
     http_client: reqwest::Client,
@@ -14,8 +19,11 @@ impl Datasource {
             dogstatsd,
         }
     }
+}
 
-    pub async fn get<U: IntoUrl>(&self, url: U) -> Result<String, reqwest::Error> {
+#[async_trait]
+impl IDatasource for Datasource {
+    async fn get(&self, url: &str) -> Result<String, reqwest::Error> {
         let now = Instant::now();
         let response = self.http_client.get(url).send().await?;
 
