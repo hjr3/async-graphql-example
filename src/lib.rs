@@ -11,6 +11,7 @@ use axum::{
     routing::get,
     Router,
 };
+use tower_http::trace::TraceLayer;
 
 use cat::CatQuery;
 use hello::HelloQuery;
@@ -42,6 +43,7 @@ pub fn app() -> Router {
 
     let app = Router::new()
         .route("/", get(graphiql).post(graphql_handler))
+        .layer(TraceLayer::new_for_http())
         .layer(Extension(schema));
 
     app
