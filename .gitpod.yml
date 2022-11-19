@@ -1,0 +1,4 @@
+tasks:
+  - before: sudo apt-get install rsync
+    init: cargo build
+    command: cargo watch -x run
