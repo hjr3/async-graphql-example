@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+anyhow = "1.0.66"
 async-graphql = "4.0.16"
 async-graphql-axum = "4.0.16"
 async-trait = "0.1.58"
@@ -12,8 +13,14 @@ dogstatsd = "0.7.1"
 env_logger = "0.9.3"
 hyper = "0.14.23"
 log = "0.4.17"
+mime = "0.3.16"
+pretty_env_logger = "0.4.0"
 reqwest = "0.11.12"
 serde = { version = "1.0.147", features = ["derive"] }
 serde_json = "1.0.87"
 slab = "0.4.7"
 tokio = { version = "1.21.2", features = ["macros", "rt-multi-thread"] }
+tower-http = { version = "0.3.0", features = ["trace"] }
+
+[dev-dependencies]
+tower = { version = "0.4", features = ["util"] }
